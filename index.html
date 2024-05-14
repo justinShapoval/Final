@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: calc(100% - 60px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"], button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #45a049;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .edit-delete {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List Manager</h1>
+        <form id="task-form">
+            <div class="form-group">
+                <label for="task">Task:</label>
+                <input type="text" id="task" name="task" placeholder="Enter your task..." required>
+                <input type="submit" value="Add Task">
+            </div>
+        </form>
+        <h2>Tasks:</h2>
+        <ul id="task-list"></ul>
+    </div>
+
+    <script>
+        document.getElementById('task-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var taskInput = document.getElementById('task');
+            var taskList = document.getElementById('task-list');
+
+            // Get the task value from the input field
+            var task = taskInput.value.trim();
+
+            if (task !== '') {
+                // Create a new list item
+                var listItem = document.createElement('li');
+                listItem.textContent = task;
+
+                // Create Edit and Delete buttons
+                var editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.className = 'edit-delete';
+                editButton.onclick = function() {
+                    var newText = prompt('Enter new task:');
+                    if (newText !== null) {
+                        listItem.textContent = newText;
+                    }
+                };
+
+                var deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = 'edit-delete';
+                deleteButton.onclick = function() {
+                    taskList.removeChild(listItem);
+                };
+
+                // Add buttons to the list item
+                listItem.appendChild(editButton);
+                listItem.appendChild(deleteButton);
+
+                // Add the new list item to the task list
+                taskList.appendChild(listItem);
+
+                // Clear the input field
+                taskInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
